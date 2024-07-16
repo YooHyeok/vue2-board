@@ -62,7 +62,7 @@
 
 </details>
 
-# 리스트 렌더링
+# `v-for` 리스트 렌더링
 ### v-for로 엘리먼트에 배열 매핑
 v-for 디렉티브를 사용하여 배열을 기반으로 리스트를 렌더링 할 수 있다.
 
@@ -94,3 +94,74 @@ v-for을 사용할때, key값이 요구되기 때문이다.
       <td>{{value.content}}</td>
   </tr>
 ```
+
+# 라우터 & 파라미터
+`path: `속성에 : 콜론을 통해 파라미터를 변수를 지정해준다.  
+(전달받을 만약 값이 없는 경우에도 정상적으로 작동하기 위해서는 변수명 끝에 ? 문자를 지정해준다.)
+- router/`index.js`
+  ```
+  import Vue from 'vue'
+  import Router from 'vue-router'
+  import Read from '@/components/Read'
+  import Create from '@/components/Create'
+  import Detail from '@/components/Detail'
+
+  Vue.use(Router)
+
+  export default new Router({
+    routes: [
+      {
+        path: '/',
+        name: 'Read',
+        component: Read
+      },
+      {
+        path: '/create/:contentId?',
+        name: 'Create',
+        component: Create
+      },
+      {
+        path: '/detail/:contentId',
+        name: 'Detail',
+        component: Detail
+      }
+    ]
+  })
+  ```
+- 목록 컴포넌트
+  
+  `this.$router.push({path: /create/`\`${this.index}\``})`  
+  위와 같이 $router.push()함수에 object타입 변수를 파라미터로 담아 컴포넌트를 변경한다.  
+  object타입 변수의 path 프로퍼티에 url주소를 입력한다.  
+  이때 파라미터는 url끝에 위처럼 동적으로 바인딩할 수 있다.  
+
+  또 다른 방법은 name에 router에 등록한 name을 입력하고 params라는 property에 
+  라우터 path에 명시한 변수명 그대로 선언하여 value값을 초기화해준다.
+  ```vue
+  <script>
+  import data from '@/data'
+  export default {
+    name: 'Read',
+    data () {
+      return {
+        index: 1
+      }
+    },
+    methods: {
+      create(index) {
+        this.$router.push({
+          path: `/create/${this.index}`
+        })
+      },
+      detail(index) {
+        this.$router.push({
+          name: 'Detail',
+          params: {
+            contentId: index
+          }
+        })
+      }
+    }
+  }
+  </script>
+  ```
