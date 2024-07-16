@@ -21,7 +21,15 @@ import data from '@/data'
     },
     methods: {
       updateData() {
-
+        /* this.$router.push({
+        path: `/create/${this.index}`,
+        }) */
+        this.$router.push({
+          name: 'Create',
+          params: {
+            contentId: this.index
+          }
+        })
       },
       deleteData() {
         data.splice(this.index,1);
