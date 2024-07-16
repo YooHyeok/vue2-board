@@ -24,7 +24,10 @@ import data from '@/data'
 
       },
       deleteData() {
-
+        data.splice(this.index,1);
+        this.$router.push({
+        path: "/"
+      })
       }
     }
   }
