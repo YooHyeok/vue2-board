@@ -8,7 +8,7 @@
       </tr>
       <tr 
       :key="index"
-      v-for="(value, index) in data">
+      v-for="(value, index) in data" @click="detail(index)">
         <td>{{value.writer}}</td>
         <td>{{value.title}}</td>
         <td>{{value.content}}</td>
@@ -31,6 +31,14 @@ export default {
     write() {
       this.$router.push({
         path: 'create'
+      })
+    },
+    detail(index) {
+      this.$router.push({
+        name: 'Detail',
+        params: {
+          contentId: index
+        }
       })
     }
   }
